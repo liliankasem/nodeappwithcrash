@@ -38,3 +38,16 @@ I have not been able to repro the issue but we are trying to create a situation 
 1. The host is requested to shut down with the active JobHost having at least one outstanding invocation
 1. The outstanding invocation completing successfully after the active host has been orphaned
 1. A new invocation coming in and failing with a process crash
+
+### Kusto query for example of above scenario executing
+
+```
+let start_time = datetime(2024-04-03T23:16:37.3512242Z);
+let end_time = datetime(2024-04-03T23:16:43.5218469Z);
+FunctionsLogs
+| where PreciseTimeStamp >= start_time and PreciseTimeStamp <= end_time
+| where AppName == "orphanbugnodeapp"
+| where Source !in ("Host.Concurrency","Microsoft.Azure.WebJobs.Script.WebHost.Middleware.SystemTraceMiddleware","Microsoft.Azure.WebJobs.Extensions.Storage.Common.Listeners.QueueListener","Microsoft.Azure.WebJobs.Extensions.Storage.Blobs.Listeners.BlobListener")
+| order by PreciseTimeStamp asc
+| project-reorder PreciseTimeStamp,HostInstanceId,Pid, Summary,Details,EventName,Source,FunctionInvocationId
+```
