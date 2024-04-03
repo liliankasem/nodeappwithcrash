@@ -1,4 +1,4 @@
-const { app, output} = require('@azure/functions');
+const { app, output } = require('@azure/functions');
 
 const blobOutput = output.storageBlob({
     path: `samples-workitems/${Date.now().toString()}.txt`,
@@ -10,7 +10,7 @@ app.http('httpTrigger', {
     authLevel: 'anonymous',
     return: blobOutput,
     handler: async (request, context) => {
-        context.log('Timer function processed request.');
+        context.log('Http function processed request.');
         context.log(blobOutput);
         return "hello world";
     }
