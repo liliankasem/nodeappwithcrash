@@ -29,9 +29,8 @@ the following steps were taken:
 
 1. Start the function app
 1. Invoke the `httpTrigger` function
-1. Wait 3-4 seconds
+1. Wait 5 seconds
 1. Send a POST request to the `admin/host/restart` API
-1. Wait 2 seconds 
 1. Invoke the `httpTriggerCrash` function
 
 I have not been able to repro the issue but we are trying to create a situation where:
